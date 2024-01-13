@@ -7,10 +7,13 @@ df = pd.read_excel(data_path)
 
 # Sidebar for user input
 st.sidebar.header("Search Stocks")
-search_query = st.sidebar.text_input("Enter stock name:")
+search_query = st.sidebar.text_input("Enter stock names (comma-separated):")
+
+# Split the input into a list of stock names
+search_queries = [query.strip() for query in search_query.split(',')]
 
 # Filter data based on user input
-filtered_df = df[df['Symbol'].str.contains(search_query, case=False)]
+filtered_df = df[df['Symbol'].str.upper().isin(search_queries)]
 
 # Display results
 if not filtered_df.empty:
